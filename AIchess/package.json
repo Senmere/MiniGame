@@ -1,0 +1,22 @@
+{
+  "name": "aichess-arena",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Web 端 AI 能力测试与娱乐平台 - 多模型竞技场",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace server",
+    "dev:web": "npm run dev --workspace web",
+    "build:server": "npm run build --workspace server",
+    "build:web": "npm run build --workspace web",
+    "dev": "concurrently -k -n server,web -c green,cyan \"npm:dev:server\" \"npm:dev:web\"",
+    "test:server": "npm run test --workspace server",
+    "build": "npm run build:server && npm run build:web"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.4"
+  }
+}
