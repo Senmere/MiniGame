@@ -1,0 +1,464 @@
+/* =====================================================
+   AIchess 竞技场 · 微信 WeUI 风格
+   设计 token 依据 Tencent/weui 官方色板（light.less）：
+   --wx-brand #07C160 · 页面底 #EDEDED · 卡片 #FFF · 文字 rgba(0,0,0,.9)
+===================================================== */
+:root {
+  /* ---- 微信官方色板 ---- */
+  --wx-brand: #07c160;          /* 主色/微信绿 */
+  --wx-brand-press: #06ad56;
+  --wx-red: #fa5151;            /* 失败/危险 */
+  --wx-orange: #fa9d3b;         /* 警告 */
+  --wx-yellow: #ffc300;         /* 提示黄 */
+  --wx-green: #91d300;          /* 成功 */
+  --wx-textgreen: #06ae56;      /* default 按钮字 */
+  --wx-blue: #10aeff;           /* 信息蓝 */
+  --wx-indigo: #1485ee;
+  --wx-purple: #6467f0;
+  --wx-link: #576b95;           /* 链接/弹窗按钮 */
+  --wx-lightgreen: #95ec69;     /* 我方气泡 */
+  --wx-bg-page: #ededed;        /* 页面背景 */
+  --wx-bg-sub: #f7f7f7;         /* tabbar/次级底 */
+  --wx-bg-card: #ffffff;        /* 卡片 */
+  --wx-bg-toast: #4c4c4c;       /* Toast */
+  --wx-fg-0: rgba(0,0,0,.9);    /* 主文字 */
+  --wx-fg-1: rgba(0,0,0,.55);   /* 次要文字 */
+  --wx-fg-2: rgba(0,0,0,.3);    /* 提示/占位 */
+  --wx-line: rgba(0,0,0,.1);    /* 分割线 */
+  --wx-mask: rgba(0,0,0,.1);    /* 按压遮罩 */
+  --wx-overlay: rgba(0,0,0,.5); /* 弹窗遮罩 */
+  --wx-active: #ececec;         /* navbar 选中底 */
+  --wx-radius-btn: 8px;
+  --wx-radius-dlg: 12px;
+  --wx-radius-bubble: 4px;
+
+  /* ---- 兼容旧变量名（映射到微信浅色，避免改全部 TSX） ---- */
+  --bg: #ededed;
+  --panel: #ffffff;
+  --panel-2: #f7f7f7;
+  --border: rgba(0,0,0,.1);
+  --text: rgba(0,0,0,.9);
+  --muted: rgba(0,0,0,.55);
+  --accent: #07c160;
+  --accent-2: #10aeff;
+  --green: #06ae56;
+  --red: #fa5151;
+  --yellow: #fa9d3b;
+  --radius: 10px;
+
+  /* WeUI 别名（保留 Chat 组件引用） */
+  --weui-bg: #ededed;
+  --weui-panel: #ffffff;
+  --weui-panel-2: #f7f7f7;
+  --weui-border: rgba(0,0,0,.1);
+  --weui-text: rgba(0,0,0,.9);
+  --weui-muted: rgba(0,0,0,.55);
+  --weui-primary: #07c160;
+  --weui-primary-press: #06ad56;
+  --weui-warn: #fa5151;
+  --weui-bubble-me: #95ec69;
+  --weui-bubble-other: #ffffff;
+  --weui-tip: rgba(0,0,0,.5);
+  --weui-link: #576b95;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--wx-bg-page);
+  color: var(--wx-fg-0);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--wx-link); text-decoration: none; }
+
+/* =====================================================
+   顶部微信导航栏（navbar）
+===================================================== */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--wx-bg-card);
+  border-bottom: 1px solid var(--wx-line);
+  display: flex; align-items: center; gap: 4px;
+  padding: 0 20px;
+  height: 52px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.04);
+}
+.navbar .logo {
+  font-size: 17px; font-weight: 700; color: var(--wx-fg-0);
+  margin-right: 18px; white-space: nowrap; display: flex; align-items: center; gap: 6px;
+}
+.navbar .logo .logo-dot {
+  width: 10px; height: 10px; border-radius: 50%; background: var(--wx-brand); display: inline-block;
+}
+.navbar a {
+  padding: 8px 14px; border-radius: 6px;
+  color: var(--wx-fg-1); font-size: 15px; font-weight: 500;
+  transition: background .15s, color .15s; white-space: nowrap;
+}
+.navbar a:hover { background: var(--wx-bg-sub); color: var(--wx-fg-0); }
+.navbar a.active { color: var(--wx-brand); background: rgba(7,193,96,.08); font-weight: 600; }
+.navbar .nav-foot { margin-left: auto; color: var(--wx-fg-2); font-size: 11px; white-space: nowrap; }
+
+.main {
+  flex: 1; width: 100%; max-width: 1080px; margin: 0 auto;
+  padding: 20px 20px 40px;
+}
+.main h1 { margin: 6px 0 2px; font-size: 22px; font-weight: 700; color: var(--wx-fg-0); }
+.main .sub { color: var(--wx-fg-1); margin: 0 0 20px; font-size: 14px; }
+
+/* =====================================================
+   卡片（微信白卡片，无重阴影）
+===================================================== */
+.card {
+  background: var(--wx-bg-card);
+  border: 1px solid var(--wx-line);
+  border-radius: var(--wx-radius-btn);
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.card h2 {
+  margin: 0 0 14px; font-size: 15px; font-weight: 600; color: var(--wx-fg-0);
+  padding-bottom: 12px; border-bottom: 1px solid var(--wx-line);
+}
+
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 10px; }
+label { color: var(--wx-fg-1); font-size: 12px; }
+
+input, select, textarea {
+  background: var(--wx-bg-sub);
+  border: 1px solid var(--wx-line);
+  color: var(--wx-fg-0);
+  border-radius: 6px;
+  padding: 9px 12px;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--wx-brand); }
+input::placeholder, textarea::placeholder { color: var(--wx-fg-2); }
+input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--wx-brand); }
+
+button {
+  background: var(--wx-brand); color: #fff;
+  border: none; border-radius: var(--wx-radius-btn);
+  padding: 10px 18px; cursor: pointer;
+  font-size: 15px; font-weight: 600; font-family: inherit;
+  transition: filter .15s, background .15s;
+}
+button:hover { filter: brightness(1.04); }
+button:active { filter: brightness(.95); }
+button.ghost {
+  background: var(--wx-bg-card); color: var(--wx-fg-0);
+  border: 1px solid var(--wx-line);
+}
+button.danger { background: var(--wx-red); }
+button:disabled { opacity: .5; cursor: not-allowed; filter: none; }
+
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--wx-line); }
+th { color: var(--wx-fg-1); font-weight: 500; font-size: 12px; }
+tbody tr:active { background: var(--wx-mask); }
+.badge {
+  background: rgba(7,193,96,.1); color: var(--wx-textgreen);
+  border-radius: 999px; padding: 2px 10px; font-size: 12px; font-weight: 600;
+}
+
+/* =====================================================
+   仪表盘统计（微信四格）
+===================================================== */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.stat {
+  background: var(--wx-bg-card); border: 1px solid var(--wx-line);
+  border-radius: var(--wx-radius-btn); padding: 16px 18px;
+}
+.stat .v { font-size: 24px; font-weight: 700; color: var(--wx-fg-0); }
+.stat .k { color: var(--wx-fg-1); font-size: 12px; margin-top: 4px; }
+
+.grid2 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 14px; }
+.grid-arena { display: grid; grid-template-columns: 1fr 340px; gap: 14px; }
+
+/* =====================================================
+   AvA 事件流（微信会话式消息）
+===================================================== */
+.chat-stream {
+  height: 380px; overflow-y: auto;
+  background: var(--wx-bg-sub);
+  border: 1px solid var(--wx-line);
+  border-radius: 8px; padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.msg {
+  padding: 8px 12px; border-radius: 6px;
+  background: var(--wx-bg-card);
+  border: 1px solid var(--wx-line);
+}
+.msg .who { font-size: 11px; color: var(--wx-brand); margin-bottom: 3px; font-weight: 600; }
+.msg.human { background: rgba(7,193,96,.06); }
+.msg.watcher { border-left: 3px solid var(--wx-orange); }
+.msg.move { border-left: 3px solid var(--wx-green); }
+.msg.illegal { border-left: 3px solid var(--wx-red); color: var(--wx-red); }
+.msg .conf { color: var(--wx-orange); font-size: 11px; margin-left: 8px; }
+
+.muted { color: var(--wx-fg-1); }
+.small { font-size: 12px; }
+.tag {
+  display: inline-block; padding: 2px 10px; border-radius: 999px;
+  background: var(--wx-bg-sub); color: var(--wx-fg-1);
+  font-size: 12px; margin-right: 6px;
+}
+.tag.green { background: rgba(7,193,96,.1); color: var(--wx-textgreen); }
+
+/* =====================================================
+   WeUI 按钮（官方：17px/700、radius 8px、按压遮罩）
+===================================================== */
+.weui-btn {
+  font-weight: 700; border-radius: var(--wx-radius-btn);
+  padding: 12px 18px; font-size: 17px; line-height: 1.4;
+  transition: background .15s, filter .15s;
+  border: none; cursor: pointer; font-family: inherit;
+  position: relative; overflow: hidden;
+}
+.weui-btn:active::after {
+  content: ""; position: absolute; inset: 0;
+  background: var(--wx-mask);
+}
+.weui-btn:hover { filter: brightness(1.04); }
+.weui-btn-primary { background: var(--wx-brand); color: #fff; }
+.weui-btn-primary:active { background: var(--wx-brand-press); }
+.weui-btn-default { background: #fff; color: var(--wx-fg-0); border: 1px solid var(--wx-line); }
+.weui-btn-warn { background: var(--wx-red); color: #fff; }
+.weui-btn[disabled] { opacity: .5; cursor: not-allowed; }
+.weui-btn[disabled]::after { display: none; }
+
+/* =====================================================
+   AI 对话室（微信聊天界面）
+===================================================== */
+.chat-page {
+  background: var(--wx-bg-page);
+  min-height: calc(100vh - 92px);
+  padding: 16px 20px 24px;
+  color: var(--wx-fg-0);
+  border-radius: 12px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+
+.weui-header {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--wx-bg-card);
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--wx-line);
+}
+.weui-header h1 { margin: 0 0 2px; font-size: 18px; font-weight: 700; }
+.weui-header .sub { margin: 0; color: var(--wx-fg-1); font-size: 12px; }
+
+.weui-panel {
+  background: var(--wx-bg-card);
+  border-radius: 10px;
+  border: 1px solid var(--wx-line);
+  overflow: hidden;
+}
+.weui-config { padding: 14px 16px; }
+.weui-config .grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px 14px; align-items: end;
+}
+.weui-config label {
+  display: flex; flex-direction: column; gap: 4px;
+  color: var(--wx-fg-1); font-size: 12px;
+}
+.weui-config label > span { color: var(--wx-fg-1); }
+.weui-config label.check { flex-direction: row; align-items: center; gap: 8px; color: var(--wx-fg-0); }
+.weui-config label.check span { color: var(--wx-fg-0); font-size: 13px; }
+.weui-config input[type=number],
+.weui-config input:not([type]) {
+  width: 100%; background: var(--wx-bg-sub);
+  border: 1px solid var(--wx-line); color: var(--wx-fg-0);
+  border-radius: 6px; padding: 9px 12px; font-size: 14px; outline: none;
+}
+.weui-config input:focus { border-color: var(--wx-brand); }
+
+.weui-stream { display: flex; flex-direction: column; min-height: 0; }
+.weui-chat {
+  background: var(--wx-bg-page);
+  padding: 14px 14px 8px;
+  height: 540px; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.weui-empty { text-align: center; color: var(--wx-fg-2); font-size: 13px; padding: 40px 10px; }
+
+/* 系统提示（时间线） */
+.weui-tip { display: flex; justify-content: center; }
+.weui-tip span {
+  background: rgba(0,0,0,.06); color: var(--wx-fg-1);
+  padding: 3px 10px; border-radius: 4px; font-size: 12px; max-width: 86%;
+}
+
+.weui-msg { display: flex; gap: 10px; align-items: flex-start; max-width: 100%; }
+.weui-msg.me { flex-direction: row-reverse; }
+.weui-msg .avatar {
+  width: 40px; height: 40px;
+  border-radius: 6px;
+  background: #d8d8d8; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700; flex-shrink: 0; letter-spacing: -.5px;
+}
+.weui-msg.me .avatar { background: var(--wx-brand); }
+
+.weui-msg .bubble-wrap {
+  /* 官方约 62.5% 屏宽，桌面放宽到 72% 兼顾可读性 */
+  max-width: min(72%, 680px);
+  display: flex; flex-direction: column; gap: 3px;
+}
+.weui-msg.me .bubble-wrap { align-items: flex-end; }
+
+.weui-msg .name { font-size: 12px; color: var(--wx-fg-1); padding: 0 4px; }
+
+/* 气泡：圆角 4px + 尾部大圆角（微信"尾巴"造型） */
+.weui-msg .bubble {
+  background: var(--wx-bubble-other);
+  border: 1px solid var(--wx-line);
+  border-radius: var(--wx-radius-bubble);
+  border-top-left-radius: 12px;
+  padding: 10px 12px;
+  color: var(--wx-fg-0);
+  font-size: 14px; line-height: 1.55;
+  position: relative; word-break: break-word; overflow-wrap: anywhere;
+}
+.weui-msg.me .bubble {
+  background: var(--wx-bubble-me);
+  border-color: rgba(0,0,0,.05);
+  border-radius: var(--wx-radius-bubble);
+  border-top-right-radius: 12px;
+}
+.weui-msg .bubble.dim { opacity: .75; }
+
+/* 流式光标 */
+.stream-caret {
+  display: inline-block; width: 2px; height: 14px;
+  background: var(--wx-brand); vertical-align: -2px; margin-left: 2px;
+  animation: caretBlink .8s infinite step-end;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+
+.weui-msg .typing { display: inline-flex; align-items: center; gap: 6px; color: var(--wx-fg-1); }
+.weui-msg .typing span {
+  display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+  background: #bbb; animation: blink 1.2s infinite ease-in-out both;
+}
+.weui-msg .typing span:nth-child(2) { animation-delay: .15s; }
+.weui-msg .typing span:nth-child(3) { animation-delay: .3s; }
+.weui-msg .typing em { font-style: normal; font-size: 12px; margin-left: 4px; }
+
+@keyframes blink {
+  0%,80%,100% { transform: scale(.6); opacity: .4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.weui-composer {
+  border-top: 1px solid var(--wx-line);
+  padding: 10px 12px;
+  background: var(--wx-bg-sub);
+  display: flex; gap: 10px; align-items: flex-end;
+}
+.weui-composer textarea {
+  flex: 1; resize: vertical;
+  background: #fff; border: 1px solid var(--wx-line); color: var(--wx-fg-0);
+  border-radius: 6px; padding: 10px 12px; font-size: 14px; line-height: 1.5;
+  outline: none; min-height: 54px; max-height: 200px; font-family: inherit;
+}
+.weui-composer textarea:focus { border-color: var(--wx-brand); }
+.weui-composer .composer-actions { display: flex; flex-direction: column; gap: 6px; }
+
+/* =====================================================
+   Markdown（微信内文排版）
+===================================================== */
+.md { color: inherit; }
+.md h1, .md h2, .md h3, .md h4, .md h5, .md h6 {
+  margin: 0 0 10px; line-height: 1.25; font-weight: 700; color: inherit;
+}
+.md-h1 { font-size: 22px; }
+.md-h2 { font-size: 19px; }
+.md-h3 { font-size: 17px; }
+.md-h4 { font-size: 15px; }
+.md-h5 { font-size: 14px; }
+.md-h6 { font-size: 13px; color: var(--wx-fg-1); }
+
+.md-p { margin: 0 0 10px; white-space: pre-wrap; }
+.md-p:last-child { margin-bottom: 0; }
+
+.md a { color: var(--wx-link); text-decoration: none; }
+.md a:hover { text-decoration: underline; }
+
+.md hr.md-hr { border: none; border-top: 1px dashed var(--wx-line); margin: 12px 0; }
+
+.md ul.md-ul, .md ol.md-ol { margin: 0 0 10px 20px; padding: 0; }
+.md ul.md-ul { list-style: disc; }
+.md ol.md-ol { list-style: decimal; }
+.md li { margin: 3px 0; }
+.md li.md-task { list-style: none; margin-left: -20px; display: flex; gap: 6px; align-items: flex-start; }
+.md li.md-task input { margin-top: 4px; }
+
+.md blockquote.md-quote {
+  margin: 8px 0; padding: 6px 12px;
+  border-left: 3px solid var(--wx-line);
+  background: var(--wx-bg-sub);
+  color: var(--wx-fg-1);
+  border-radius: 0 6px 6px 0;
+}
+.md blockquote.md-quote > div + div { margin-top: 4px; }
+
+.md code.inline {
+  background: rgba(0,0,0,.06);
+  color: #d63384;
+  padding: 1px 5px; border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+}
+
+.md pre.md-pre {
+  background: #282c34; color: #e6e9ef;
+  border-radius: 6px; padding: 10px 12px; overflow-x: auto; margin: 8px 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px; line-height: 1.55;
+}
+.md pre.md-pre code { background: transparent; padding: 0; color: inherit; }
+.md .md-lang {
+  color: #9ba1ab; font-size: 11px; margin-bottom: 4px;
+  border-bottom: 1px dashed rgba(255,255,255,.1); padding-bottom: 4px;
+}
+
+.md table.md-table {
+  width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; background: #fff;
+}
+.md table.md-table th, .md table.md-table td {
+  border: 1px solid var(--wx-line); padding: 6px 10px; text-align: left;
+}
+.md table.md-table th { background: var(--wx-bg-sub); font-weight: 600; }
+
+.md strong { font-weight: 700; }
+.md em { font-style: italic; }
+
+/* =====================================================
+   响应式
+===================================================== */
+@media (max-width: 900px) {
+  .grid2, .grid-arena { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .navbar { padding: 0 10px; gap: 0; overflow-x: auto; }
+  .navbar .logo { margin-right: 8px; font-size: 15px; }
+  .navbar a { padding: 8px 10px; font-size: 14px; }
+  .navbar .nav-foot { display: none; }
+  .main { padding: 14px 12px 32px; }
+  .weui-config .grid { grid-template-columns: 1fr 1fr; }
+  .chat-page { padding: 10px 8px 16px; }
+  .weui-chat { height: 460px; }
+}
