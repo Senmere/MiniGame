@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>星轨收集者 - Star Trail Collector</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+
+      <!-- HUD -->
+      <div id="hud">
+        <div id="score-display">
+          <span class="hud-label">分数</span>
+          <span id="score-value">0</span>
+        </div>
+        <div id="lives-display">
+          <span class="hud-label">生命</span>
+          <span id="lives-value">❤️❤️❤️</span>
+        </div>
+        <div id="speed-display">
+          <span class="hud-label">速度</span>
+          <span id="speed-value">1x</span>
+        </div>
+      </div>
+
+      <!-- 开始画面 -->
+      <div id="start-screen" class="overlay-screen">
+        <div class="overlay-content">
+          <h1 class="game-title">星轨收集者</h1>
+          <p class="game-subtitle">Star Trail Collector</p>
+          <div class="controls-hint">
+            <p>🎮 WASD / 方向键 控制飞船方向</p>
+            <p>🚀 空格键 加速飞行</p>
+            <p>⭐ 收集金色星星获得分数</p>
+            <p>🪐 小心小行星引力！碰撞会扣血</p>
+          </div>
+          <button id="start-button" class="game-button">开始游戏</button>
+        </div>
+      </div>
+
+      <!-- 游戏结束画面 -->
+      <div id="gameover-screen" class="overlay-screen hidden">
+        <div class="overlay-content">
+          <h1 class="gameover-title">游戏结束</h1>
+          <p class="final-score">最终得分：<span id="final-score">0</span></p>
+          <p class="high-score">最高分：<span id="high-score">0</span></p>
+          <button id="restart-button" class="game-button">重新开始</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
